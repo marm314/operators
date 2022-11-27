@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
  ifstream file_reader;
  // Normal order string
  normal_order(input_file);
- // Clean deltas file (remove xs and 1s)
+ // Clean deltas file (remove xs and 1s) and sort
  file_reader.open("deltas_x1.txt");
  print_deltas.open("deltas.txt");
  while(getline(file_reader,read_line))
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
  file_reader.close();
  print_deltas.close();
  system("/bin/rm -rf deltas_x1.txt");
- // Alphabetic sort strings and deltas
+ // Alphabetic sort operators strings (including change of sign due to permutations)
 
  // Paste operators.txt and deltas.txt files
  system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
