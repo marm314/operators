@@ -3,3 +3,4 @@
 using namespace std;
 bool compare(string original, string input);
 void lowercase(string &original);
+int alphabetic(char &input);

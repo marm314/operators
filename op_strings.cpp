@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl;
  cout<<endl; 
- int idelta;
+ char tmp;
+ int index1,index2,idelta;
  string input_file,read_line;
  if(argc!=2)
  {
@@ -66,8 +67,22 @@ int main(int argc, char *argv[])
   for(idelta=0;idelta<(int)read_line.length();idelta++)
   {
    if(read_line[idelta]=='x' || read_line[idelta]=='1') read_line[idelta]=' ';
+   if(read_line[idelta]=='_')
+   {
+    index1=alphabetic(read_line[idelta+1]);
+    index2=alphabetic(read_line[idelta+2]);
+    if(index1>index2)
+    {
+     tmp=read_line[idelta+1];
+     read_line[idelta+1]=read_line[idelta+2];
+     read_line[idelta+2]=tmp;
+    }
+   }
   }
   read_line.erase(std::remove_if(read_line.begin(),read_line.end(),::isspace),read_line.end());
+
+// MAU ALSO PERMUTE DELTAS HERE
+
   print_deltas<<read_line<<endl;
  } 
  file_reader.close();

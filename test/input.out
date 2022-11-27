@@ -1,7 +1,7 @@
    +1 bck bcl bai baj 	
-   -1 bck baj 	delta_li
-   +1 bck bai 	delta_lj
-   +1 bcl baj 	delta_ki
-   -1 	delta_ljdelta_ki
-   -1 bcl bai 	delta_kj
-   +1 	delta_lidelta_kj
+   -1 bck baj 	delta_il
+   +1 bck bai 	delta_jl
+   +1 bcl baj 	delta_ik
+   -1 	delta_jldelta_ik
+   -1 bcl bai 	delta_jk
+   +1 	delta_ildelta_jk
