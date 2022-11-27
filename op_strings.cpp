@@ -18,21 +18,46 @@ struct OP
  bool on=true;
 };
 
-void normal_order();
+void normal_order(string input_file);
 void copy_string_ops(OP *opin,OP *opout,int &nops);
 void permute_ops(OP *op,int &iop);
 void switchoff_ops(OP *op,int &iop);
 void print_string(OP *op,int &n_operators,int factor);
 void update_deltas(OP *opin,int &nops, string &delta_new);
 
-
-int main()
+int main(int argc, char *argv[])
 {
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"---        NORMAL ORDERING PROGRAM       ---"<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"-- Developed by: Dr. M. Rodriguez-Mayorga --"<<endl; 
+ cout<<"--     email: marm3.14@gmail.com          --"<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"--------------------------------------------"<<endl;
+ cout<<endl; 
  int idelta;
- string read_line;
+ string input_file,read_line;
+ if(argc!=2)
+ {
+  cout<<"Include the name of the input file"<<endl;
+  cout<<"e.g."<<endl;
+  cout<<"./op_strings name.inp"<<endl;
+  cout<<endl; 
+  cout<<"--------------------------------------------"<<endl; 
+  cout<<"--            Normal termination          --"<<endl;
+  cout<<"--------------------------------------------"<<endl; 
+  cout<<"--------------------------------------------"<<endl; 
+  return 0;
+ }
+ else
+ {
+  input_file=argv[1];
+ }
  ifstream file_reader;
  // Normal order string
- normal_order();
+ normal_order(input_file);
  // Clean deltas file (remove xs and 1s)
  file_reader.open("deltas_x1.txt");
  print_deltas.open("deltas.txt");
@@ -51,14 +76,19 @@ int main()
  // Alphabetic sort strings and deltas
 
  // Paste operators.txt and deltas.txt files
- system("paste operators.txt deltas.txt > output.txt");
+ system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
  system("/bin/rm -rf deltas.txt");
  system("/bin/rm -rf operators.txt");
  
+ cout<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"--            Normal termination          --"<<endl;
+ cout<<"--------------------------------------------"<<endl; 
+ cout<<"--------------------------------------------"<<endl; 
  return 0;
 }
 
-void normal_order()
+void normal_order(string input_file)
 {
  bool not_ordered,is_ordered;
  int iop,iline,iter=0;
@@ -74,14 +104,14 @@ void normal_order()
   // Read strings
   if(iter==0)
   {
-   file_reader.open("input.txt");
+   file_reader.open(input_file.c_str());
    while(getline(file_reader,read_line)){n_lines++;};
    file_reader.close();
    n_operators=new int[n_lines];  
    factors=new int[n_lines];  
    op_string_in=new OP*[n_lines];
    deltas_string=new string[n_lines];
-   file_reader.open("input.txt");
+   file_reader.open(input_file.c_str());
    for(iline=0;iline<n_lines;iline++)
    {
     getline(file_reader,read_line);
