@@ -1,2 +1,2 @@
 all:
-	g++ -O3 String_ops.cpp creanh.cpp -o creanh
+	g++ -Wall -O3 String_ops.cpp creanh.cpp -o creanh

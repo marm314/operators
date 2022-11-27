@@ -18,6 +18,7 @@ struct OP
  bool on=true;
 };
 
+void normal_order();
 void copy_string_ops(OP *opin,OP *opout,int &nops);
 void permute_ops(OP *op,int &iop);
 void switchoff_ops(OP *op,int &iop);
@@ -27,8 +28,40 @@ void update_deltas(OP *opin,int &nops, string &delta_new);
 
 int main()
 {
+ int idelta;
+ string read_line;
+ ifstream file_reader;
+ // Normal order string
+ normal_order();
+ // Clean deltas file (remove xs and 1s)
+ file_reader.open("deltas_x1.txt");
+ print_deltas.open("deltas.txt");
+ while(getline(file_reader,read_line))
+ {
+  for(idelta=0;idelta<(int)read_line.length();idelta++)
+  {
+   if(read_line[idelta]=='x' || read_line[idelta]=='1') read_line[idelta]=' ';
+  }
+  read_line.erase(std::remove_if(read_line.begin(),read_line.end(),::isspace),read_line.end());
+  print_deltas<<read_line<<endl;
+ } 
+ file_reader.close();
+ print_deltas.close();
+ system("/bin/rm -rf deltas_x1.txt");
+ // Alphabetic sort strings and deltas
+
+ // Paste operators.txt and deltas.txt files
+ system("paste operators.txt deltas.txt > output.txt");
+ system("/bin/rm -rf deltas.txt");
+ system("/bin/rm -rf operators.txt");
+ 
+ return 0;
+}
+
+void normal_order()
+{
  bool not_ordered,is_ordered;
- int iop,iline,idelta,iter=0;
+ int iop,iline,iter=0;
  int n_lines;
  int *factors,*n_operators;
  string read_line,delta_str,*deltas_string;
@@ -171,31 +204,7 @@ int main()
   delete[] op_string_in;op_string_in=NULL;
   iter++;
   cout<<"Iter. "<<setw(10)<<iter<<endl;
- }while(not_ordered); 
- // Clean deltas file (remove xs and 1s)
- file_reader.open("deltas_x1.txt");
- print_deltas.open("deltas.txt");
- while(getline(file_reader,read_line))
- {
-  for(idelta=0;idelta<read_line.length();idelta++)
-  {
-   if(read_line[idelta]=='x' || read_line[idelta]=='1') read_line[idelta]=' ';
-  }
-  read_line.erase(std::remove_if(read_line.begin(),read_line.end(),::isspace),read_line.end());
-  print_deltas<<read_line<<endl;
- } 
- file_reader.close();
- print_deltas.close();
- system("/bin/rm -rf deltas_x1.txt");
-
-// Alphabetic order strings and deltas
-
-// Paste operators.txt and deltas.txt files
- system("paste operators.txt deltas.txt > output.txt");
- system("/bin/rm -rf deltas.txt");
- system("/bin/rm -rf operators.txt");
- 
- return 0;
+ }while(not_ordered);
 }
 
 void copy_string_ops(OP *opin,OP *opout,int &nops)
