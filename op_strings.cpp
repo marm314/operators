@@ -21,6 +21,7 @@ struct OP
 void sort_operators();
 void normal_order(string input_file);
 void clean_sort_deltas();
+void reduce_op_str(string output_file);
 void copy_string_ops(OP *opin,OP *opout,int &nops);
 void permute_ops(OP *op,int &iop);
 void switchoff_ops(OP *op,int &iop);
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl;
  cout<<endl; 
- string input_file;
+ string input_file,output_file;
  if(argc!=2)
  {
   cout<<"Include the name of the input file"<<endl;
@@ -64,9 +65,15 @@ int main(int argc, char *argv[])
  // Alphabetic sort operators strings (including change of sign due to permutations!)
  sort_operators();
  // Paste operators.txt and deltas.txt files
- system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
+ output_file=input_file.substr(0,input_file.length()-3)+"out";
+ system(("paste operators.txt deltas.txt >"+output_file).c_str());
  system("/bin/rm -rf deltas.txt");
  system("/bin/rm -rf operators.txt");
+ // Reduced repeated strings
+ reduce_op_str(output_file);
+ cout<<endl;
+ cout<<"See the file "<<output_file<<" for the result."<<endl; 
+ cout<<endl; 
  // Terminate screen output
  cout<<endl; 
  cout<<"--------------------------------------------"<<endl; 
@@ -379,6 +386,55 @@ void sort_operators()
  print_file.close();
  file_reader.close();
  system("mv operators_tmp.txt operators.txt");
+}
+
+void reduce_op_str(string output_file)
+{
+ int iline,iline1,nlines=0;
+ int *factors;
+ string *lines,read_line,line_aux,line_aux1;
+ ifstream file_reader;
+ file_reader.open(output_file);
+ while(getline(file_reader,read_line)){nlines++;}
+ file_reader.close(); 
+ lines=new string[nlines];
+ factors=new int[nlines];
+ file_reader.open(output_file);
+ iline=0;
+ while(getline(file_reader,read_line))
+ {
+  stringstream ss(read_line.substr(0,5));
+  ss>>factors[iline];
+  lines[iline]=read_line.substr(5,read_line.length()-5);
+  iline++;
+ }
+ file_reader.close();
+ for(iline=0;iline<nlines-1;iline++)
+ {
+  line_aux=lines[iline];
+  line_aux.erase(std::remove_if(line_aux.begin(),line_aux.end(),::isspace),line_aux.end());
+  for(iline1=iline+1;iline1<nlines;iline1++)
+  {
+   line_aux1=lines[iline1];
+   line_aux1.erase(std::remove_if(line_aux1.begin(),line_aux1.end(),::isspace),line_aux1.end());
+   if(line_aux==line_aux1 && factors[iline1]!=0)
+   {
+    factors[iline]=factors[iline]+factors[iline1];
+    factors[iline1]=0;
+   }
+  }
+ } 
+ print_file.open(output_file);
+ for(iline=0;iline<nlines;iline++)
+ {
+  if(factors[iline]!=0)
+  {
+   print_file<<setw(5)<<showpos<<factors[iline]<<lines[iline]<<endl;
+  }
+ }
+ print_file.close();
+ delete[] lines;lines=NULL;
+ delete[] factors;factors=NULL;
 }
 
 void copy_string_ops(OP *opin,OP *opout,int &nops)
