@@ -269,6 +269,19 @@ void clean_sort_deltas()
        read_line[idelta1*8+6]=tmp_char;
        read_line[idelta1*8+7]=tmp_char2;
       }
+      if(alphabetic(read_line[idelta*8+6])==alphabetic(read_line[idelta1*8+6])) // If both 1st indices are equal, sort using the second index
+      {
+       if(alphabetic(read_line[idelta*8+7])>alphabetic(read_line[idelta1*8+7]))
+       {
+        sorted=false;
+        tmp_char=read_line[idelta*8+6];
+        tmp_char2=read_line[idelta*8+7];
+        read_line[idelta*8+6]=read_line[idelta1*8+6];
+        read_line[idelta*8+7]=read_line[idelta1*8+7];
+        read_line[idelta1*8+6]=tmp_char;
+        read_line[idelta1*8+7]=tmp_char2;
+       }
+      }
      }
     }
    }while(!sorted); 
