@@ -19,6 +19,7 @@ struct OP
 };
 
 void normal_order(string input_file);
+void clean_sort_deltas();
 void copy_string_ops(OP *opin,OP *opout,int &nops);
 void permute_ops(OP *op,int &iop);
 void switchoff_ops(OP *op,int &iop);
@@ -37,9 +38,7 @@ int main(int argc, char *argv[])
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl;
  cout<<endl; 
- char tmp;
- int index1,index2,idelta;
- string input_file,read_line;
+ string input_file;
  if(argc!=2)
  {
   cout<<"Include the name of the input file"<<endl;
@@ -56,39 +55,11 @@ int main(int argc, char *argv[])
  {
   input_file=argv[1];
  }
- ifstream file_reader;
  // Normal order string
  normal_order(input_file);
- // Clean deltas file (remove xs and 1s) and sort
- file_reader.open("deltas_x1.txt");
- print_deltas.open("deltas.txt");
- while(getline(file_reader,read_line))
- {
-  for(idelta=0;idelta<(int)read_line.length();idelta++)
-  {
-   if(read_line[idelta]=='x' || read_line[idelta]=='1') read_line[idelta]=' ';
-   if(read_line[idelta]=='_')
-   {
-    index1=alphabetic(read_line[idelta+1]);
-    index2=alphabetic(read_line[idelta+2]);
-    if(index1>index2)
-    {
-     tmp=read_line[idelta+1];
-     read_line[idelta+1]=read_line[idelta+2];
-     read_line[idelta+2]=tmp;
-    }
-   }
-  }
-  read_line.erase(std::remove_if(read_line.begin(),read_line.end(),::isspace),read_line.end());
-
-// MAU ALSO PERMUTE DELTAS HERE
-
-  print_deltas<<read_line<<endl;
- } 
- file_reader.close();
- print_deltas.close();
- system("/bin/rm -rf deltas_x1.txt");
- // Alphabetic sort operators strings (including change of sign due to permutations)
+ // Clean deltas file (remove x and 1, but add *) and sort alphabetically
+ clean_sort_deltas();
+ // Alphabetic sort operators strings (including change of sign due to permutations!)
 
  // Paste operators.txt and deltas.txt files
  system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
@@ -252,6 +223,70 @@ void normal_order(string input_file)
  }while(not_ordered);
 }
 
+void clean_sort_deltas()
+{
+ bool sorted;
+ char tmp_char,tmp_char2;
+ int index1,index2,idelta,idelta1;
+ string read_line;
+ ifstream file_reader;
+ file_reader.open("deltas_x1.txt");
+ print_deltas.open("deltas.txt");
+ while(getline(file_reader,read_line))
+ {
+  for(idelta=0;idelta<(int)read_line.length();idelta++)
+  {
+   if(read_line[idelta]=='x' || read_line[idelta]=='1') read_line[idelta]=' ';
+   if(read_line[idelta]=='_')
+   {
+    index1=alphabetic(read_line[idelta+1]);
+    index2=alphabetic(read_line[idelta+2]);
+    if(index1>index2)
+    {
+     tmp_char=read_line[idelta+1];
+     read_line[idelta+1]=read_line[idelta+2];
+     read_line[idelta+2]=tmp_char;
+    }
+   }
+  }
+  read_line.erase(std::remove_if(read_line.begin(),read_line.end(),::isspace),read_line.end());
+  if(read_line.length()>8)
+  {
+   do
+   {
+    sorted=true;
+    for(idelta=0;idelta<(int)read_line.length()/8-1;idelta++)
+    {
+     for(idelta1=idelta+1;idelta1<(int)read_line.length()/8;idelta1++)
+     {
+      if(alphabetic(read_line[idelta*8+6])>alphabetic(read_line[idelta1*8+6]))
+      {
+       sorted=false;
+       tmp_char=read_line[idelta*8+6];
+       tmp_char2=read_line[idelta*8+7];
+       read_line[idelta*8+6]=read_line[idelta1*8+6];
+       read_line[idelta*8+7]=read_line[idelta1*8+7];
+       read_line[idelta1*8+6]=tmp_char;
+       read_line[idelta1*8+7]=tmp_char2;
+      }
+     }
+    }
+   }while(!sorted); 
+  }
+  if(read_line.length()==0)
+  {
+   print_deltas<<read_line<<endl;
+  }
+  else
+  {
+   print_deltas<<"* "<<read_line<<endl;
+  }
+ } 
+ file_reader.close();
+ print_deltas.close();
+ system("/bin/rm -rf deltas_x1.txt");
+}
+
 void copy_string_ops(OP *opin,OP *opout,int &nops)
 {
  int iop;
@@ -299,7 +334,7 @@ void update_deltas(OP *opin,int &nops, string &delta_new)
    iop=nops;
   }
  }
- if(all_on) delta_new="x 1 ";
+ if(all_on){delta_new="x 1 ";}
 }
 
 void print_string(OP *op, int & n_operators, int factor)
