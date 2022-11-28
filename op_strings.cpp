@@ -18,6 +18,7 @@ struct OP
  bool on=true;
 };
 
+void sort_operators();
 void normal_order(string input_file);
 void clean_sort_deltas();
 void copy_string_ops(OP *opin,OP *opout,int &nops);
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
  // Clean deltas file (remove x and 1, but add *) and sort alphabetically
  clean_sort_deltas();
  // Alphabetic sort operators strings (including change of sign due to permutations!)
-
+ sort_operators();
  // Paste operators.txt and deltas.txt files
  system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
  system("/bin/rm -rf deltas.txt");
@@ -303,6 +304,81 @@ void clean_sort_deltas()
  print_deltas.close();
  system("/bin/rm -rf deltas_x1.txt");
  cout<<"Deltas sorting done"<<endl;
+}
+
+void sort_operators()
+{
+ bool not_sorted;
+ int iop,iline=0,noperators,ncre,nanh,factor,permutations;
+ string read_line,ops_str,str_aux;
+ OP *op_string_in;
+ ifstream file_reader;
+ file_reader.open("operators.txt");
+ print_file.open("operators_tmp.txt");
+ while(getline(file_reader,read_line))
+ {
+  str_aux=read_line;
+  stringstream ss(read_line.substr(0,5));
+  ss>>factor;
+  ops_str=read_line.substr(5,read_line.length()-5);
+  ops_str.erase(std::remove_if(ops_str.begin(),ops_str.end(),::isspace),ops_str.end());
+  lowercase(ops_str);
+  noperators=ops_str.length()/3;
+  op_string_in=new OP[noperators];
+  if(noperators>2)
+  {
+   ncre=0;nanh=0;
+   for(iop=0;iop<noperators;iop++)
+   {
+    op_string_in[iop].label=ops_str[3*iop];  
+    if(ops_str[3*iop+1]=='c')
+    {
+     op_string_in[iop].creation=true;
+     ncre++;
+    }
+    else
+    {
+     op_string_in[iop].creation=false;
+     nanh++;
+    }
+    op_string_in[iop].index=ops_str[3*iop+2];
+   }
+   permutations=0;
+   do
+   {
+    not_sorted=false;
+    for(iop=0;iop<ncre-1;iop++)
+    {
+     if(alphabetic(op_string_in[iop].index)>alphabetic(op_string_in[iop+1].index))
+     {
+      permutations++; 
+      permute_ops(op_string_in,iop);
+      not_sorted=true;
+     }
+    }
+    for(iop=ncre;iop<ncre+nanh-1;iop++)
+    {
+     if(alphabetic(op_string_in[iop].index)<alphabetic(op_string_in[iop+1].index))
+     {
+      permutations++; 
+      permute_ops(op_string_in,iop);
+      not_sorted=true;
+     }
+    }
+   }while(not_sorted);
+   if(permutations%2!=0){factor=-factor;}
+   print_string(op_string_in,noperators,factor);
+  }  
+  else
+  {
+   print_file<<str_aux<<endl;
+  }
+  delete[] op_string_in;op_string_in=NULL;
+  iline++;
+ }
+ print_file.close();
+ file_reader.close();
+ system("mv operators_tmp.txt operators.txt");
 }
 
 void copy_string_ops(OP *opin,OP *opout,int &nops)
