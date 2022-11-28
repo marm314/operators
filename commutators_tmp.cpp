@@ -4,10 +4,11 @@
 using namespace std;
 
 string path="PATH";
+string command;
 
 int main()
 { 
- path=path+"/op_strings";
- cout<<path<<endl;
+ command=path+"/op_strings";
+ cout<<command<<endl; 
  return 0;
 }

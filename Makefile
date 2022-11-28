@@ -5,4 +5,6 @@ all:
 clean:
 	/bin/rm -rf op_strings
 	/bin/rm -rf commutators.cpp 
-	/bin/rm -rf commutators 
+	/bin/rm -rf commutators
+tar:
+	tar -cvf operators.tar *cpp *h Makefile test *sh
