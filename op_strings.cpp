@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
   cout<<"Include the name of the input file"<<endl;
   cout<<"e.g."<<endl;
   cout<<"./op_strings name.inp"<<endl;
+  // Terminate screen output
   cout<<endl; 
   cout<<"--------------------------------------------"<<endl; 
   cout<<"--            Normal termination          --"<<endl;
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
  system(("paste operators.txt deltas.txt >"+input_file.substr(0,input_file.length()-3)+"out").c_str());
  system("/bin/rm -rf deltas.txt");
  system("/bin/rm -rf operators.txt");
- 
+ // Terminate screen output
  cout<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--            Normal termination          --"<<endl;
@@ -82,6 +83,7 @@ void normal_order(string input_file)
  int *factors,*n_operators;
  string read_line,delta_str,*deltas_string;
  ifstream file_reader;
+ cout<<"Starting normal ordering iterations"<<endl;
  OP **op_string_in,*op_string_out;
  do
  {
@@ -221,6 +223,7 @@ void normal_order(string input_file)
   iter++;
   cout<<"Iter. "<<setw(10)<<iter<<endl;
  }while(not_ordered);
+ cout<<"Normal ordering iterations done"<<endl;
 }
 
 void clean_sort_deltas()
@@ -232,6 +235,7 @@ void clean_sort_deltas()
  ifstream file_reader;
  file_reader.open("deltas_x1.txt");
  print_deltas.open("deltas.txt");
+ cout<<"Starting deltas sorting"<<endl;
  while(getline(file_reader,read_line))
  {
   for(idelta=0;idelta<(int)read_line.length();idelta++)
@@ -298,6 +302,7 @@ void clean_sort_deltas()
  file_reader.close();
  print_deltas.close();
  system("/bin/rm -rf deltas_x1.txt");
+ cout<<"Deltas sorting done"<<endl;
 }
 
 void copy_string_ops(OP *opin,OP *opout,int &nops)
