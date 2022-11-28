@@ -1,0 +1,6 @@
+   +1 acp acr aas aan 	* delta_mq
+   +1 acm acp aas aan 	* delta_qr
+   +1 acp aan 	* delta_msdelta_qr
+   -1 acm acr aaq aan 	* delta_ps
+   -1 acm acr aas aaq 	* delta_np
+   -1 acr aaq 	* delta_msdelta_np
