@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
   cout<<endl; 
   cout<<"--------------------------------------------"<<endl; 
   cout<<"--            Normal termination          --"<<endl;
+  cout<<"---        NORMAL ORDERING PROGRAM       ---"<<endl; 
   cout<<"--------------------------------------------"<<endl; 
   cout<<"--------------------------------------------"<<endl; 
   return 0;
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
  // Alphabetic sort operators strings (including change of sign due to permutations!)
  sort_operators();
  // Paste operators.txt and deltas.txt files
- output_file=input_file.substr(0,input_file.length()-3)+"out";
+ output_file=input_file.substr(0,input_file.length()-3)+"ops";
  system(("paste operators.txt deltas.txt >"+output_file).c_str());
  system("/bin/rm -rf deltas.txt");
  system("/bin/rm -rf operators.txt");
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
  cout<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--            Normal termination          --"<<endl;
+ cout<<"---        NORMAL ORDERING PROGRAM       ---"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  return 0;

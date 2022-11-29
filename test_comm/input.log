@@ -1,0 +1,58 @@
+--------------------------------------------
+--------------------------------------------
+---          COMMUTATORS PROGRAM         ---
+--------------------------------------------
+--------------------------------------------
+-- Developed by: Dr. M. Rodriguez-Mayorga --
+--     email: marm3.14@gmail.com          --
+--------------------------------------------
+--------------------------------------------
+
+Commutator read:
+[acp aaq,[acr aas,acm aan]]
+
+
+
+Calling normal ordering program
+
+--------------------------------------------
+--------------------------------------------
+---        NORMAL ORDERING PROGRAM       ---
+--------------------------------------------
+--------------------------------------------
+-- Developed by: Dr. M. Rodriguez-Mayorga --
+--     email: marm3.14@gmail.com          --
+--------------------------------------------
+--------------------------------------------
+
+Starting normal ordering iterations
+Iter.          1
+Iter.          2
+Iter.          3
+Iter.          4
+Normal ordering iterations done
+Starting deltas sorting
+Deltas sorting done
+
+See the file ops_input.ops for the result.
+
+
+--------------------------------------------
+--            Normal termination          --
+---        NORMAL ORDERING PROGRAM       ---
+--------------------------------------------
+--------------------------------------------
+
+Simplified commutator
+
+   +1 acp aan 	* delta_msdelta_qr
+   -1 acp aas 	* delta_mqdelta_nr
+   -1 acr aaq 	* delta_msdelta_np
+   +1 acm aaq 	* delta_nrdelta_ps
+
+
+--------------------------------------------
+--            Normal termination          --
+---          COMMUTATORS PROGRAM         ---
+--------------------------------------------
+--------------------------------------------
