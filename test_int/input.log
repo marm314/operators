@@ -1,0 +1,31 @@
+--------------------------------------------
+--------------------------------------------
+---    INT, COEF & OPERATOS PROGRAM      ---
+--------------------------------------------
+--------------------------------------------
+-- Developed by: Dr. M. Rodriguez-Mayorga --
+--     email: marm3.14@gmail.com          --
+--------------------------------------------
+--------------------------------------------
+
+
+Integrals and coefs read
+kappa_pq kappa_rs h_mn
+
+
+Indices read
+p q r s m n 
+
+
+Transformation from operators to density matrices
+
+   +1 sum_mnpqrs 1D_p,n kappa_pq kappa_rs h_mn * delta_msdelta_qr
+   -1 sum_mnpqrs 1D_p,s kappa_pq kappa_rs h_mn * delta_mqdelta_nr
+   -1 sum_mnpqrs 1D_r,q kappa_pq kappa_rs h_mn * delta_msdelta_np
+   +1 sum_mnpqrs 1D_m,q kappa_pq kappa_rs h_mn * delta_nrdelta_ps
+
+--------------------------------------------
+--            Normal termination          --
+---    INT, COEF & OPERATOS PROGRAM      ---
+--------------------------------------------
+--------------------------------------------
