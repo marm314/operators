@@ -115,14 +115,14 @@ int main(int argc, char *argv[])
      aux1="";
      string String = static_cast<ostringstream*>( &(ostringstream() << ncre) )->str();
      result=String+"D_";
-     for(ichar=0;ichar<ncre;ichar=ichar+3)
+     for(ichar=0;ichar<(int)aux.length()/ncre;ichar++)
      {
-      result=result+aux[ichar+2]; 
+      if((ichar+1)%3==0) result=result+aux[ichar]; 
      } 
      result=result+",";
-     for(ichar=0;ichar<nanh;ichar=ichar+3)
+     for(ichar=0;ichar<(int)aux.length()/nanh;ichar++)
      {
-      aux1=aux[aux.length()-1-ichar]; 
+      if((ichar+1)%3==0) aux1=aux1+aux[aux.length()+1-ichar]; 
      } 
      result=result+aux1+" "+int_coefs;
      result=result+" * "+deltas;
