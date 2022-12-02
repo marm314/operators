@@ -1,7 +1,9 @@
 # operators
 Normal ordering and operations related to creation and annihilation operators
 Developed by Dr. M. Rodriguez-Mayorga
+email: marm3.14@gmail.com
 At the Vrije Universiteit Amsterdam in Dec 2022
+
 
 Installation
 ............
