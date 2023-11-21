@@ -113,7 +113,9 @@ int main(int argc, char *argv[])
     if(ncre==nanh)
     {
      aux1="";
-     string String = static_cast<ostringstream*>( &(ostringstream() << ncre) )->str();
+     ostringstream convert;
+     convert<<ncre;
+     string String=convert.str();
      result=String+"D_";
      for(ichar=0;ichar<(int)aux.length()/ncre;ichar++)
      {
